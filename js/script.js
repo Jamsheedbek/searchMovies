@@ -29,7 +29,7 @@ let render = movies => {
 }
 
 function getData1() {
-  fetch(`http://www.omdbapi.com/?apikey=d83224c7&s=spider&page=1`)
+  fetch(`http://www.omdbapi.com/?apikey=16bb7ce6&s=spider&page=1`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
