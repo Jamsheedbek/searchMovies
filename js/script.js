@@ -5,6 +5,7 @@ const elPrev = $_(".js-prev");
 const elNext = $_(".js-next");
 const elError = $_(".js-error");
 const elInput = $_("#js-input");
+const elLoader = $_(".js-loader");
 const numberOfMovies = $_("#result");
 const elMoviesList = $_(".js-films-list");
 const elMoviesTemplate = $_("#search-result-template");
@@ -27,6 +28,22 @@ let render = movies => {
   });
 }
 
+function getData1() {
+  fetch(`http://www.omdbapi.com/?apikey=d83224c7&s=spider&page=1`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      console.log(data.totalResults);
+      elPrev.disabled = true;
+      elNext.disabled = true;
+      elLoader.classList.remove("d-block");
+      elLoader.classList.add('d-none');
+      render(data.Search);
+    });
+}
+
+getData1()
+
 let getData = linkOmdb => {
   fetch(linkOmdb)
   .then((response) => response.json())
@@ -43,7 +60,8 @@ let getData = linkOmdb => {
       if (page < Math.ceil(data.totalResults / 10)) {
           elNext.disabled = false;
       }
-      // elLoader.style.display = "none";
+      elLoader.classList.remove("d-block");
+      elLoader.classList.add('d-none');
       if(data.Response == 'True') {
         elError.textContent = "";
         render(data.Search);
@@ -68,8 +86,8 @@ elForm.addEventListener("submit", (e) => {
 function nextPage() {
   page = page + 1;
   elMoviesList.textContent = "";
-  console.log("salom");
-  // elLoader.style.display = "block";
+  elLoader.classList.remove("d-none");
+  elLoader.classList.add("d-block");
   getData(movieApi(movieName,page));
 }
 elNext.addEventListener("click", nextPage);
@@ -77,7 +95,8 @@ elNext.addEventListener("click", nextPage);
 function prevPage() {
   page = page - 1;
   elMoviesList.textContent = "";
-  // elLoader.style.display = "block";
+  elLoader.classList.remove("d-none");
+  elLoader.classList.add("d-block");
   getData(movieApi(movieName,page));
 }
 elPrev.addEventListener("click", prevPage);
