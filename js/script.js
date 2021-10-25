@@ -29,7 +29,7 @@ let render = movies => {
 }
 
 function getData1() {
-  fetch(`http://www.omdbapi.com/?apikey=16bb7ce6&s=spider&page=1`)
+  fetch(movieApi('spider', 1))
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
@@ -76,6 +76,8 @@ let getData = linkOmdb => {
 
 elForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  elLoader.classList.remove("d-none");
+  elLoader.classList.add("d-block");
   movieName = elInput.value.trim();
   if (movieName.length > 2) {
       let link = movieApi(movieName, 1);
